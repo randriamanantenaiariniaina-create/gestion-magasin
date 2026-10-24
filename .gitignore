@@ -1,0 +1,24 @@
+# Python / Django
+venv/
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+staticfiles/
+
+# Secrets : ne jamais publier
+.env
+.env.*
+!.env.example
+
+# Node / React
+node_modules/
+dist/
+
+# Divers
+*.log
+.vscode/
+.DS_Store
+
+# Notes personnelles (contiennent des mots de passe locaux)
+commandes_reprise_projet.txt

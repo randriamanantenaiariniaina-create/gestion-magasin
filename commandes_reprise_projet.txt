@@ -1,0 +1,221 @@
+﻿=====================================================================
+  GESTION DE MAGASIN (Django + React + PostgreSQL)
+  Commandes a taper a CHAQUE reprise du projet
+=====================================================================
+
+Dossier du projet : C:\Users\Iariniaina\Documents\gestion_magasin
+  - backend\   = Django (API)          -> http://127.0.0.1:8000
+  - frontend\  = React (ecrans)        -> http://localhost:5173
+
+Il faut OUVRIR 2 TERMINAUX (dans VS Code : bouton "+" du panneau Terminal)
+et les laisser ouverts pendant que tu travailles.
+
+
+---------------------------------------------------------------------
+ETAPE 0 : verifier que PostgreSQL tourne (port 5433)
+---------------------------------------------------------------------
+Ouvre PowerShell et tape :
+
+    Get-Service *postgres*
+
+- Si "Status" = Running            -> c'est bon, passe a l'etape 1.
+- Si "Status" = Stopped            -> demarre-le (PowerShell ouvert en
+  "Executer en tant qu'administrateur") avec le nom affiche dans la
+  colonne Name, par exemple :
+
+    Start-Service postgresql-x64-16
+
+(Autre methode : touche Windows, taper "Services", chercher "postgresql",
+ clic droit > Demarrer.)
+
+
+---------------------------------------------------------------------
+ETAPE 1 : TERMINAL 1 -> le serveur Django (backend)
+---------------------------------------------------------------------
+    cd C:\Users\Iariniaina\Documents\gestion_magasin\backend
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+    .\venv\Scripts\Activate.ps1
+    python manage.py runserver
+
+Tu dois voir "(venv)" au debut de la ligne, puis :
+    Starting development server at http://127.0.0.1:8000/
+Laisse ce terminal tel quel.
+
+
+---------------------------------------------------------------------
+ETAPE 2 : TERMINAL 2 -> React (frontend)
+---------------------------------------------------------------------
+    cd C:\Users\Iariniaina\Documents\gestion_magasin\frontend
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+    npm run dev
+
+Tu dois voir :
+    Local: http://localhost:5173/
+Laisse aussi ce terminal tourner.
+
+
+---------------------------------------------------------------------
+ETAPE 3 : ouvrir l'application
+---------------------------------------------------------------------
+Dans le navigateur :  http://localhost:5173
+
+Comptes de test :
+    Admin    ->  admin      /  Admin@2026
+    Vendeur  ->  vendeur1   /  Nouveau@2026
+
+Note : "mot de passe oublie" n'envoie PAS de vrai email pour l'instant.
+Le message s'affiche dans le TERMINAL 1 (celui de Django) : copie le lien
+"http://localhost:5173/reinitialiser/..." dans le navigateur.
+
+
+---------------------------------------------------------------------
+POUR TOUT ARRETER
+---------------------------------------------------------------------
+Dans chaque terminal : Ctrl + C
+
+
+=====================================================================
+  COMMANDES UTILES (pas a chaque fois, seulement si besoin)
+=====================================================================
+
+Dans le TERMINAL 1 (backend, avec "(venv)") - arrete d'abord le serveur
+avec Ctrl + C, ou ouvre un 3e terminal en refaisant les 3 premieres
+lignes de l'etape 1 :
+
+  Apres avoir MODIFIE un modele (models.py) :
+    python manage.py makemigrations
+    python manage.py migrate
+
+  Apres avoir recupere le projet depuis GitHub / mis a jour :
+    python manage.py migrate
+
+  Creer un super-utilisateur (acces a http://127.0.0.1:8000/admin/) :
+    python manage.py createsuperuser
+
+  Lancer les tests automatiques du backend :
+    python manage.py test magasin
+
+  Verifier qu'il n'y a pas d'erreur de configuration :
+    python manage.py check
+
+Dans le TERMINAL 2 (frontend) :
+  Verifier le code React :
+    npm run lint
+  Fabriquer la version de production (pour l'hebergement) :
+    npm run build
+
+
+=====================================================================
+  PREMIERE INSTALLATION (seulement sur un NOUVEL ordinateur
+  ou si le dossier venv\ ou node_modules\ a disparu)
+=====================================================================
+
+Backend :
+    cd C:\Users\Iariniaina\Documents\gestion_magasin\backend
+    py -m venv venv
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+    .\venv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    python manage.py migrate
+
+Il faut aussi un fichier backend\.env contenant :
+    SECRET_KEY=une-longue-phrase-secrete
+    DEBUG=True
+    DB_ENGINE=django.db.backends.postgresql
+    DB_NAME=magasin_db
+    DB_USER=postgres
+    DB_PASSWORD=ton_mot_de_passe_postgres
+    DB_HOST=127.0.0.1
+    DB_PORT=5433
+et la base "magasin_db" doit exister dans PostgreSQL (pgAdmin >
+clic droit sur Databases > Create > Database).
+
+Frontend :
+    cd C:\Users\Iariniaina\Documents\gestion_magasin\frontend
+    npm install
+
+
+=====================================================================
+  EN CAS DE PROBLEME
+=====================================================================
+
+* "L'execution de scripts est desactivee sur ce systeme"
+    -> retaper : Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+       (a refaire dans chaque nouveau terminal)
+
+* "connection refused" / "could not connect to server" au lancement de Django
+    -> PostgreSQL n'est pas demarre (voir ETAPE 0), ou le port dans .env
+       (5433) n'est pas le bon.
+
+* "password authentication failed for user postgres"
+    -> le DB_PASSWORD dans backend\.env est faux.
+
+* "No module named 'django'"
+    -> tu as oublie d'activer le venv : le "(venv)" doit apparaitre
+       au debut de la ligne du terminal.
+
+* "Port 8000 is already in use" / "Port 5173 is already in use"
+    -> un ancien serveur tourne encore. Ferme l'ancien terminal
+       (ou Ctrl + C dedans), puis relance.
+
+* La page s'affiche mais "Impossible de joindre le serveur"
+    -> le TERMINAL 1 (Django) n'est pas lance ou a plante.
+
+* Apres une modification de .env -> relancer Django (Ctrl + C puis
+  python manage.py runserver).
+
+
+=====================================================================
+  COMPTE ADMIN PERDU (le role est repasse en "vendeur")
+=====================================================================
+Dans le TERMINAL 1 (avec "(venv)"), arrete Django avec Ctrl + C, puis :
+
+    python manage.py shell -c "from magasin.models import Utilisateur as U; U.objects.filter(username='admin').update(role='admin')"
+
+Ensuite relance : python manage.py runserver
+Dans le navigateur : deconnecte-toi puis reconnecte-toi avec admin.
+
+Pour voir tous les comptes et leur role :
+
+    python manage.py shell -c "from magasin.models import Utilisateur as U; print(list(U.objects.values_list('username','role')))"
+
+
+=====================================================================
+  DONNEES DE TEST (pour voir pagination, seuil, ventes, reçus...)
+=====================================================================
+Dans le TERMINAL 1 (avec "(venv)"), dossier backend :
+
+    python manage.py remplir_donnees_test
+
+Pour avoir plus de ventes (ex. 60 au total) :
+
+    python manage.py remplir_donnees_test --ventes 60
+
+- On peut la relancer sans risque : rien n'est duplique ni modifie.
+- Cree : 12 categories, 12 fournisseurs, 35 clients, 45 produits,
+  11 vendeurs (vendeur2 a vendeur12, mot de passe : Vendeur@2026)
+  et des ventes jusqu'au total demande (25 par defaut).
+- 6 produits sous le seuil + 3 en rupture de stock.
+- 3 categories restent vides (Cosmetiques, Vetements, Electromenager)
+  pour tester la suppression.
+- Refuse de tourner si DEBUG=False (protection de la base en ligne).
+
+
+=====================================================================
+  AVANCEMENT DES MODIFICATIONS
+=====================================================================
+[x] Etape 2  Backend : changer son mot de passe, route "qui suis-je"
+[x] Etape 3  CrudPage.jsx + index.css : pagination, messages qui
+             disparaissent, reference en grise, NOM / Prenom / email
+             mis en forme a la saisie, telephone verifie
+[x] Etape 4  Clients, Fournisseurs, Produits, Utilisateurs
+             (commentaires de format retires, stock retire du formulaire
+             produit, role de l'admin verrouille)
+[x] Etape 5  Page Stock separee + App.jsx + Layout.jsx (menu alphabetique,
+             "Mon mot de passe", role rafraichi a chaque ouverture)
+[x] Etape 6  Ventes.jsx : pagination + messages qui disparaissent
+             + recu imprimable (ticket 80 mm) apres chaque vente
+[ ] Etape 7  Vraies icones (2 fleches a remplacer)
+[ ] Etape 8  Hebergement + GitHub
+
+A LIVRER A LA FIN : 1) lien du projet heberge   2) lien GitHub
