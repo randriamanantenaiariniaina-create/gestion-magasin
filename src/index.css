@@ -1,0 +1,1200 @@
+/* ---------- Palette tirée du logo ---------- */
+:root {
+  --marine: #0f2f4a;
+  /* bleu marine du logo : menu, titres, boutons */
+  --marine-survol: #1d3d59;
+  /* marine un peu plus clair : survols */
+  --acier-fonce: #2c4e68;
+  /* bleu acier foncé */
+  --acier: #3f6a8a;
+  /* bleu acier : lien actif, focus, accents */
+  --acier-pale: #dbe6ec;
+  /* fond d'un élément actif */
+  --acier-tres-pale: #eaf0f4;
+  /* fond très léger */
+  --fond: #e8eef2;
+  /* fond des pages (gris-bleu clair du logo) */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--fond);
+  color: #1f2937;
+}
+
+.page-centree {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.carte {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(15, 47, 74, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.carte h1 {
+  font-size: 1.4rem;
+  color: var(--marine);
+  text-align: center;
+}
+
+.sous-titre {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid var(--acier);
+  border-color: transparent;
+}
+
+.bouton {
+  margin-top: 14px;
+  padding: 11px;
+  background: var(--marine);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.bouton:hover {
+  background: var(--marine-survol);
+}
+
+.bouton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.erreur {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.liens {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+.liens a {
+  color: var(--acier-fonce);
+  text-decoration: none;
+}
+
+.liens a:hover {
+  text-decoration: underline;
+}
+
+.succes {
+  background: #dcfce7;
+  color: #166534;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.aide {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.lien-bouton {
+  text-align: center;
+  text-decoration: none;
+  display: block;
+}
+
+.champ-mdp {
+  position: relative;
+  display: flex;
+}
+
+.champ-mdp input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.oeil {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 6px;
+  display: flex;
+}
+
+.oeil:hover {
+  color: var(--marine);
+}
+
+/* ---------- Application (menu + contenu) ---------- */
+.appli {
+  display: flex;
+  min-height: 100vh;
+}
+
+.menu {
+  width: 240px;
+  background: var(--marine);
+  color: white;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.menu h2 {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.menu nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu nav a {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.menu nav a:hover {
+  background: var(--marine-survol);
+  color: white;
+}
+
+.menu nav a.actif {
+  background: var(--acier);
+  color: white;
+}
+
+.utilisateur {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.badge {
+  align-self: flex-start;
+  background: #f59e0b;
+  color: #1f2937;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.utilisateur button {
+  padding: 9px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contenu {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+}
+
+.burger {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 60;
+  font-size: 1.4rem;
+  background: var(--marine);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.voile {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 40;
+}
+
+/* ---------- Pages ---------- */
+.entete-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.titre-page {
+  font-size: 1.5rem;
+  color: var(--marine);
+}
+
+.vide {
+  color: #6b7280;
+  padding: 12px 0;
+}
+
+.bouton-secondaire {
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.bouton-secondaire:hover {
+  background: #f1f5f9;
+}
+
+.cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(15, 47, 74, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.stat strong {
+  font-size: 1.6rem;
+  color: var(--marine);
+}
+
+.stat.alerte strong {
+  color: #dc2626;
+}
+
+.graphiques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.bloc {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(15, 47, 74, 0.08);
+  margin-bottom: 16px;
+  min-width: 0;
+}
+
+.bloc h3 {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: var(--marine);
+}
+
+.defile {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background: #f1f5f9;
+  font-size: 0.85rem;
+}
+
+.rouge {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ---------- Téléphone et tablette ---------- */
+@media (max-width: 900px) {
+  .burger {
+    display: block;
+  }
+
+  .menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.25s;
+  }
+
+  .menu.ouvert {
+    transform: translateX(0);
+  }
+
+  .contenu {
+    padding: 60px 14px 14px;
+  }
+}
+
+/* ---------- Logo et icônes ---------- */
+.logo-carte {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 18px;
+  align-self: center;
+  margin-bottom: 4px;
+  box-shadow: 0 2px 10px rgba(15, 47, 74, 0.2);
+}
+
+.marque {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.marque img {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.marque h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.menu nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.utilisateur button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.icone-texte {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icone-texte.centre {
+  justify-content: center;
+}
+
+.bouton-secondaire {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tourne {
+  animation: tourne 1s linear infinite;
+}
+
+@keyframes tourne {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Gestion : formulaires, tableaux, fenêtres ---------- */
+select,
+textarea {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  font-family: inherit;
+}
+
+select:focus {
+  outline: 2px solid var(--acier);
+  border-color: transparent;
+}
+
+input:disabled,
+select:disabled {
+  background: #f1f5f9;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.bouton-principal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: var(--marine);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.bouton-principal:hover {
+  background: var(--marine-survol);
+}
+
+.bouton-principal:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.icone-bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #475569;
+  cursor: pointer;
+}
+
+.icone-bouton:hover {
+  background: #e2e8f0;
+  color: var(--marine);
+}
+
+.icone-bouton.danger:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.col-actions {
+  white-space: nowrap;
+  text-align: right;
+  width: 1%;
+}
+
+.recherche {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: #6b7280;
+}
+
+.recherche input {
+  flex: 1;
+  border: none;
+  padding: 10px 0;
+  min-width: 0;
+}
+
+.recherche input:focus {
+  outline: none;
+}
+
+.recherche:focus-within {
+  outline: 2px solid var(--acier);
+  border-color: transparent;
+}
+
+.etiquette {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.etiquette-admin {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.modal-fond {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.modal-entete h2 {
+  font-size: 1.15rem;
+  color: var(--marine);
+}
+
+.formulaire,
+.form-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formulaire {
+  gap: 12px;
+}
+
+.erreur-champ {
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ---------- Ventes ---------- */
+.onglets {
+  display: flex;
+  gap: 4px;
+  background: #e2e8f0;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.onglets button {
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.onglets button.actif {
+  background: white;
+  color: var(--marine);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.vente-grille {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+  align-items: start;
+}
+
+.panier {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.produits-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.produit-carte {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.produit-carte:hover:not(:disabled) {
+  border-color: var(--acier);
+  background: var(--acier-tres-pale);
+}
+
+.produit-carte:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.produit-carte .prix {
+  color: var(--marine);
+  font-weight: 700;
+}
+
+.panier-lignes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panier-lignes li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 10px;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.panier-nom {
+  display: flex;
+  flex-direction: column;
+}
+
+.quantite {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quantite input {
+  width: 56px;
+  text-align: center;
+  padding: 6px;
+}
+
+.sous-total {
+  text-align: right;
+  color: var(--marine);
+}
+
+.modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.modes button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.modes button.actif {
+  background: var(--marine);
+  color: white;
+  border-color: var(--marine);
+}
+
+.total-ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  padding-top: 6px;
+}
+
+.total-ligne strong {
+  font-size: 1.4rem;
+  color: var(--marine);
+}
+
+.panier .bouton {
+  margin-top: 0;
+}
+
+.detail-vente td {
+  background: #f8fafc;
+}
+
+.detail-vente ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .vente-grille {
+    grid-template-columns: 1fr;
+  }
+
+  .panier {
+    position: static;
+  }
+
+  .entete-page {
+    padding-left: 48px;
+    /* laisse la place au bouton du menu */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 16px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+}
+
+/* ---------- Pagination ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.pagination-boutons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-boutons button {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pagination-boutons button:hover:not(:disabled):not(.actif) {
+  background: #f1f5f9;
+}
+
+.pagination-boutons button.actif {
+  background: var(--marine);
+  border-color: var(--marine);
+  color: white;
+  cursor: default;
+}
+
+.pagination-boutons button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pagination-points {
+  padding: 0 4px;
+  color: #94a3b8;
+}
+
+/* ---------- Menu latéral défilant si l'écran est bas ---------- */
+.menu {
+  overflow-y: auto;
+}
+
+/* ---------- Barre du haut : utilisateur, mot de passe, déconnexion ---------- */
+.zone {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.barre-haut {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  height: 56px;
+  padding: 0 24px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.barre-nom {
+  color: #1e293b;
+}
+
+.barre-haut .badge {
+  align-self: center;
+}
+
+/* Titre de la page affiché à gauche de la barre */
+.barre-titre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--marine);
+}
+
+/* Le titre répété dans la page reste lisible par les lecteurs d'écran, mais n'est plus affiché */
+.contenu .titre-page {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.entete-page {
+  justify-content: flex-end;
+}
+
+.barre-bouton {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #475569;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.barre-bouton:hover,
+.barre-bouton:focus-visible {
+  background: #f1f5f9;
+  color: var(--marine);
+}
+
+.barre-bouton.actif {
+  background: var(--acier-pale);
+  color: var(--acier-fonce);
+}
+
+.barre-bouton.danger:hover,
+.barre-bouton.danger:focus-visible {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Petite bulle sombre sous l'icône, visible seulement au survol */
+.barre-bouton::after {
+  content: attr(data-info);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 6px 12px;
+  background: #111827;
+  color: white;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.barre-bouton:hover::after,
+.barre-bouton:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+
+  /* le bouton burger flotte à gauche de la barre, qui prend déjà la place du haut */
+  .contenu {
+    padding: 14px;
+  }
+
+  .barre-haut {
+    padding: 0 12px;
+  }
+
+  /* laisse la place au bouton ☰ */
+  .barre-titre {
+    padding-left: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .barre-nom {
+    display: none;
+  }
+}
+
+/* ---------- Page Stock : formulaire d'ajout ---------- */
+.stock-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.stock-form .form-champ {
+  flex: 1 1 220px;
+}
+
+.stock-form .bouton-principal {
+  margin-top: 24px;
+}
+
+/* ---------- Reçu de vente (ticket 80 mm) ---------- */
+.recu-voile {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 47, 74, 0.55);
+}
+
+.recu-boite {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 100%;
+  padding: 14px;
+  background: var(--fond);
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.recu-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.recu-papier {
+  width: 80mm;
+  max-width: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 5mm 4mm;
+  background: white;
+  color: #111;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.recu-papier hr {
+  margin: 8px 0;
+  border: none;
+  border-top: 1px dashed #111;
+}
+
+.recu-entete,
+.recu-pied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.recu-nom {
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.recu-pied {
+  gap: 4px;
+  font-size: 11px;
+}
+
+.recu-infos p,
+.recu-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 2px 0;
+}
+
+.recu-total {
+  font-size: 1.1rem;
+}
+
+.recu-lignes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recu-lignes li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 6px 0;
+}
+
+.recu-produit {
+  grid-column: 1 / -1;
+  font-weight: 700;
+}
+
+/* À l'impression : seul le reçu est imprimé (sans menu ni barre du haut) */
+@media print {
+
+  html,
+  body {
+    background: white !important;
+  }
+
+  #root {
+    display: none !important;
+  }
+
+  .recu-voile {
+    position: static;
+    display: block;
+    padding: 0;
+    background: none;
+  }
+
+  .recu-boite {
+    display: block;
+    max-height: none;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .recu-actions {
+    display: none;
+  }
+
+  .recu-papier {
+    width: 80mm;
+    max-width: none;
+    overflow: visible;
+    padding: 4mm 4mm 8mm;
+    box-shadow: none;
+  }
+
+  /* Format A4 / PDF : le reçu est agrandi et centré sur la feuille */
+  html[data-recu='a4'] .recu-papier {
+    zoom: 1.7;
+    margin: 8mm auto 0;
+    border: 1px solid #111;
+  }
+}
